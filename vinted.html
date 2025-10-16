@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mój Portfel — Vinted 1:1 Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+       #hr{
+        border: none;
+        height: 1px;
+        background-color: #313536;
+        margin: 0;
+        }
+    body {
+      margin: 0;
+      background-color: #181c1d;
+      color: #e6eef0;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      max-width: 430px;
+      margin: auto;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+    }
+    .back {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .title {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .balance {
+      text-align: center;
+      margin-top: 12px;
+    }
+    .balance .amount {
+      font-size: 30px;
+      font-weight: 600;
+    }
+    .balance .subtitle {
+      color: #8b9498;
+      font-size: 15px;
+    }
+    .promo {
+      background-color: #112e32;
+      border-radius: 14px;
+      margin: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .promo h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+    .promo p {
+      margin: 6px 0 0;
+      font-size: 13px;
+    }
+    .promo a {
+      color: #3ec7c3;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .cta {
+      display: block;
+      width: calc(100% - 32px);
+      margin: 12px auto;
+      padding: 12px;
+      background-color: #459da9;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      color: #000;
+      font-size: 15px;
+    }
+    .section {
+      padding: 0 16px;
+    }
+    .section h4 {
+      color: #8b9498;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .item {
+      background-color: #181c1d;
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .thumb {
+      width: 60px;
+      height: 85px;
+      border-radius: 8px;
+      background-color: #333;
+      text-align: center;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      flex-shrink: 0;
+      overflow: visible;
+      position: relative;
+    }
+    .watch {
+      position: absolute;
+      bottom: -5px;
+      right: -8px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      z-index: 10;
+      object-fit: cover;
+    }
+    .meta {
+      flex: 1;
+    }
+    .meta .name {
+      font-weight: 500;
+    }
+    .meta .price {
+      color: #8b9498;
+      font-size: 10px;
+      margin-top: 4px;
+    }
+    .meta .status {
+      color: #95a0a3;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e04b4b;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      font-weight: bold;
+      align-items: center;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background-color: #181c1d;
+      border-radius: 14px 14px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      z-index: 9999;
+    }
+    .nav-item {
+      color: #8b9498;
+      font-size: 12px;
+      text-align: center;
+    }
+    .nav-item.active {
+      color: #3ec7c3;
+      font-weight: 600;
+    }
+    #zebtka{
+        width: 40px;
+    }
+    #paseknadole{
+        width: 100%;
+    }
+   #gora{
+    width: 100%;
+   }
+   #serduszko{
+    width: 40px;
+   }
+    #odswiezaniewdol {
+      height: 0;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #101113;
+      transition: height 0.3s ease;
+      overflow: hidden;
+    }
+    .content-wrapper {
+      transition: transform 0.3s ease-out;
+    }
+    .amount {
+      cursor: pointer;
+      user-select: none;
+    }
+    body.dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
+    body.dragging * {
+      pointer-events: none;
+    }
+    body.dragging .amount,
+    body.dragging button,
+    body.dragging a {
+      pointer-events: auto;
+    }
+    
+    /* Spinner animowany */
+    .lds-spinner {
+      color: official;
+      display: none;
+      position: relative;
+      width: 30px;
+      height: 30px;
+      margin: 0 auto;
+    }
+    .lds-spinner div {
+      transform-origin: 15px 15px;
+      animation: lds-spinner 1.2s linear infinite;
+    }
+    .lds-spinner div:after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 2px;
+      left: 13px;
+      width: 2px;
+      height: 7px;
+      border-radius: 20%;
+      background: #6c757d;
+    }
+    .lds-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -0.9s; }
+    .lds-spinner div:nth-child(2) { transform: rotate(45deg); animation-delay: -0.8s; }
+    .lds-spinner div:nth-child(3) { transform: rotate(90deg); animation-delay: -0.7s; }
+    .lds-spinner div:nth-child(4) { transform: rotate(135deg); animation-delay: -0.6s; }
+    .lds-spinner div:nth-child(5) { transform: rotate(180deg); animation-delay: -0.5s; }
+    .lds-spinner div:nth-child(6) { transform: rotate(225deg); animation-delay: -0.4s; }
+    .lds-spinner div:nth-child(7) { transform: rotate(270deg); animation-delay: -0.3s; }
+    .lds-spinner div:nth-child(8) { transform: rotate(315deg); animation-delay: -0.2s; }
+
+    @keyframes lds-spinner {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .srodki{
+        color: #ebecee ;
+        font-weight: 100px;
+    }
+       #srodki{
+        color: #ebecee ;
+        margin-left: 3px;
+                font-weight: 100px;
+                font-size: 15px;
+
+    }
+    #siano{
+        color:#a7aeaf;
+    }
+      .siano{
+        color:#a7aeaf;
+    }
+      
+    #info{
+        width: 30px;
+        margin-top: 10px;
+margin-right: 6px;
+margin-bottom: -10px;
+ }
+    .thumb img:not(.watch) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .strzalka {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .strzalka img {
+      width: 100%;
+      height: 100%;
+      margin-top: 60px;
+      object-fit: contain;
+    }
+    #przerwa{
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+       <img src="caloscgora.png" id="gora" alt="">
+ </div>
+   <hr id="hr">
+   <div id="odswiezaniewdol">
+     <div id="spinner" class="lds-spinner">
+       <div></div><div></div><div></div><div></div>
+       <div></div><div></div><div></div><div></div>
+     </div>
+   </div>
+
+  <div class="content-wrapper" id="contentWrapper">
+  <div class="balance">
+    <br>
+    <div class="amount" id="balanceAmount">40,00 zł</div>
+    <div class="subtitle">Dostępne środki</div>
+    <br>
+  </div>
+
+  <div class="promo">
+    <div><img src="serduszko.png" alt="" id="serduszko"></div>
+    <div>
+      <h3>Spraw sobie przyjemność!</h3>
+      <p>Wykorzystaj zarobione pieniądze przy kolejnym zakupie.</p>
+      <br>
+      <a href="#">Kup upatrzone perełki &gt;</a>
+    </div>
+  </div>
+
+  <button class="cta">Wypłać na konto bankowe</button>
+<img src="przerwa.png" id="przerwa" alt="">
+
+  <div class="section">
+    <div class="header-row">
+     <div class="srodki"><h4 id="srodki" class="srodki">Oczekujące środki</h4></div> 
+      <div class="siano"><span id="totalPrice">0,00 zł</span>    <img src="info.png" id="info" alt=""></div>
+    </div>
+
+    <div class="items">
+      <div class="item">
+        <div class="thumb"><img src="zdj1.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">240,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj2.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">240,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj3.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">250,00 zł</div>
+          <div class="status">Zamówienie wysłane - przesyłka w drodze.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj4.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">180,00 zł</div>
+          <div class="status">Oczekiwanie na potwierdzenie dostarczenia.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj5.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">200,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj1.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">220,00 zł</div>
+          <div class="status">Zamówienie wysłane - przesyłka w drodze.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj2.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">260,00 zł</div>
+          <div class="status">Oczekiwanie na potwierdzenie dostarczenia.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj3.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">190,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj4.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">210,00 zł</div>
+          <div class="status">Zamówienie wysłane - przesyłka w drodze.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj5.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">235,00 zł</div>
+          <div class="status">Oczekiwanie na potwierdzenie dostarczenia.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj1.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">255,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj2.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">175,00 zł</div>
+          <div class="status">Zamówienie wysłane - przesyłka w drodze.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj3.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">245,00 zł</div>
+          <div class="status">Oczekiwanie na potwierdzenie dostarczenia.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj4.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">225,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj5.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">265,00 zł</div>
+          <div class="status">Zamówienie wysłane - przesyłka w drodze.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj1.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">215,00 zł</div>
+          <div class="status">Oczekiwanie na potwierdzenie dostarczenia.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj2.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">185,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj3.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">270,00 zł</div>
+          <div class="status">Zamówienie wysłane - przesyłka w drodze.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj4.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">230,00 zł</div>
+          <div class="status">Oczekiwanie na potwierdzenie dostarczenia.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj5.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">195,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj1.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">275,00 zł</div>
+          <div class="status">Zamówienie wysłane - przesyłka w drodze.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj2.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">205,00 zł</div>
+          <div class="status">Oczekiwanie na potwierdzenie dostarczenia.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj3.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">250,00 zł</div>
+          <div class="status">Etykieta wysyłkowa została wysłana do sprzedawcy.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj4.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">280,00 zł</div>
+          <div class="status">Zamówienie wysłane - przesyłka w drodze.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+
+      <div class="item">
+        <div class="thumb"><img src="zdj5.jpg"><img src="zegarek.png" class="watch" alt="watch"></div>
+        <div class="meta">
+          <div class="name">Vivienne Westwood Kolczyki</div>
+          <div class="price">170,00 zł</div>
+          <div class="status">Oczekiwanie na potwierdzenie dostarczenia.</div>
+        </div>
+        <div class="strzalka"><img src="strzalka.png" alt=""></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="bottom-nav">
+    <img src="paseknadole.png" id="paseknadole" >
+  </div>
+
+  <script>
+    // Pull-to-refresh - przeciąganie w dół (działa wszędzie)
+    const contentWrapper = document.getElementById('contentWrapper');
+    const refreshArea = document.getElementById('odswiezaniewdol');
+    const spinner = document.getElementById('spinner');
+    let startY = 0;
+    let currentY = 0;
+    let isDragging = false;
+    let hasMoved = false;
+    let isRefreshing = false;
+
+    // Nasłuchuj na całym body
+    document.body.addEventListener('mousedown', startDrag);
+    document.body.addEventListener('touchstart', startDrag, { passive: true });
+
+    function startDrag(e) {
+      // Nie blokuj kliknięć w linki, przyciski, balance amount
+      if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('a') || e.target.closest('button') || e.target.id === 'balanceAmount') {
+        return;
+      }
+      
+      if (isRefreshing) return; // Nie pozwól na przeciąganie podczas odświeżania
+      
+      isDragging = true;
+      hasMoved = false;
+      startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
+      contentWrapper.style.transition = 'none';
+      
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('touchmove', onDrag, { passive: false });
+      document.addEventListener('mouseup', endDrag);
+      document.addEventListener('touchend', endDrag);
+    }
+
+    function onDrag(e) {
+      if (!isDragging) return;
+      
+      currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
+      const deltaY = currentY - startY;
+      
+      // Tylko przesuwanie w dół (deltaY > 0)
+      if (deltaY > 0) {
+        hasMoved = true;
+        document.body.classList.add('dragging');
+        const moveAmount = Math.min(deltaY, 150); // Max 150px
+        contentWrapper.style.transform = `translateY(${moveAmount}px)`;
+        
+        // Dynamicznie zwiększaj wysokość obszaru odświeżania
+        refreshArea.style.height = `${moveAmount}px`;
+        
+        // Pokaż spinner gdy przeciągnięto wystarczająco
+        if (moveAmount > 60) {
+          spinner.style.display = 'inline-block';
+        } else {
+          spinner.style.display = 'none';
+        }
+        
+        // Zapobiegnij scrollowaniu na mobile
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+      }
+    }
+
+    function endDrag() {
+      if (!isDragging) return;
+      
+      isDragging = false;
+      document.body.classList.remove('dragging');
+      
+      const deltaY = currentY - startY;
+      const moveAmount = Math.min(deltaY, 150);
+      
+      // Jeśli przeciągnięto wystarczająco daleko (>80px), uruchom odświeżanie
+      if (moveAmount > 80 && !isRefreshing) {
+        isRefreshing = true;
+        
+        // Zostaw zawartość przesunięta i spinner widoczny
+        contentWrapper.style.transition = 'transform 0.3s ease-out';
+        contentWrapper.style.transform = 'translateY(80px)';
+        refreshArea.style.height = '80px';
+        refreshArea.style.backgroundColor = '#101113';
+        spinner.style.display = 'inline-block';
+        
+        // Symulacja ładowania przez 0.5 sekundy
+        setTimeout(() => {
+          // Wróć do normalnego stanu
+          contentWrapper.style.transform = 'translateY(0)';
+          refreshArea.style.height = '0';
+          refreshArea.style.backgroundColor = '#181c1d';
+          spinner.style.display = 'none';
+          
+          setTimeout(() => {
+            isRefreshing = false;
+          }, 200);
+        }, 500);
+      } else {
+        // Zwykły powrót bez odświeżania
+        contentWrapper.style.transition = 'transform 0.3s ease-out';
+        contentWrapper.style.transform = 'translateY(0)';
+        refreshArea.style.height = '0';
+        refreshArea.style.backgroundColor = '#181c1d';
+        spinner.style.display = 'none';
+      }
+      
+      document.removeEventListener('mousemove', onDrag);
+      document.removeEventListener('touchmove', onDrag);
+      document.removeEventListener('mouseup', endDrag);
+      document.removeEventListener('touchend', endDrag);
+      
+      // Małe opóźnienie, żeby kliknięcia nie były rejestrowane zaraz po przeciągnięciu
+      if (hasMoved) {
+        setTimeout(() => {
+          hasMoved = false;
+        }, 100);
+      }
+    }
+
+    // Obliczanie sumy wszystkich cen
+    function calculateTotalPrice() {
+      const prices = document.querySelectorAll('.price');
+      let total = 0;
+      
+      prices.forEach(priceElement => {
+        const priceText = priceElement.textContent;
+        const priceValue = parseFloat(priceText.replace(' zł', '').replace(',', '.'));
+        if (!isNaN(priceValue)) {
+          total += priceValue;
+        }
+      });
+      
+      // Formatuj na polski format (z przecinkiem)
+      const formattedPrice = total.toFixed(2).replace('.', ',');
+      document.getElementById('totalPrice').textContent = formattedPrice + ' zł';
+    }
+    
+    // Oblicz na starcie strony
+    calculateTotalPrice();
+
+    // Triple-click na balance - edytowanie kwoty
+    let clickCount = 0;
+    let clickTimer;
+    const balanceAmount = document.getElementById('balanceAmount');
+
+    balanceAmount.addEventListener('click', function(e) {
+      e.stopPropagation(); // Nie pozwól na drag
+      clickCount++;
+
+      if (clickCount === 1) {
+        clickTimer = setTimeout(() => {
+          clickCount = 0;
+        }, 300);
+      }
+
+      if (clickCount === 3) {
+        clearTimeout(clickTimer);
+        clickCount = 0;
+
+        const currentText = balanceAmount.textContent;
+        const currentValue = currentText.replace(' zł', '').trim();
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentValue;
+        input.style.cssText = `
+          width: 80%;
+          padding: 8px;
+          font-size: 30px;
+          font-weight: 600;
+          text-align: center;
+          background-color: #1a1f20;
+          color: #e6eef0;
+          border: 2px solid #3ec7c3;
+          border-radius: 8px;
+          font-family: 'Inter', sans-serif;
+        `;
+
+        balanceAmount.innerHTML = '';
+        balanceAmount.appendChild(input);
+        input.focus();
+        input.select();
+
+        function saveBalance() {
+          const newValue = input.value.trim() || currentValue;
+          balanceAmount.textContent = newValue + ' zł';
+        }
+
+        input.addEventListener('blur', saveBalance);
+        input.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            saveBalance();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
