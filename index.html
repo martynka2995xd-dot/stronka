@@ -877,13 +877,13 @@ margin-bottom: -10px;
         };
         
         if (Notification.permission === 'granted') {
-          new Notification('Vinted', notificationOptions);
+          new Notification('\u200b', notificationOptions);
           console.log('Notification sent!');
         } else if (Notification.permission === 'default') {
           console.log('Requesting notification permission...');
           Notification.requestPermission().then(permission => {
             if (permission === 'granted') {
-              new Notification('Vinted', notificationOptions);
+              new Notification('\u200b', notificationOptions);
               console.log('Notification sent after permission!');
             }
           });
