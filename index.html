@@ -845,6 +845,36 @@ margin-bottom: -10px;
         });
       }
     });
+
+    // Rejestracja Service Workera i push notifications
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
+    }
+
+    // Poproś o uprawnienia do powiadomień
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+
+    // Funkcja wysyłająca powiadomienie
+    function sendNotification() {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Sprzedane!', {
+          body: 'Osoba kupująca czeka na zamówienie.',
+          icon: 'logo.png',
+          badge: 'logo.png'
+        });
+      }
+    }
+
+    // Dodaj powiadomienie do każdego kliknięcia na item
+    document.querySelectorAll('.item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        if (!hasMoved) {
+          sendNotification();
+        }
+      });
+    });
   </script>
 </body>
 </html>
