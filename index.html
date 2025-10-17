@@ -644,7 +644,7 @@ margin-bottom: -10px;
   <div class="bottom-nav">
     <img src="paseknadole.png" id="paseknadole" >
   </div>
-<br>
+
   <script>
     // Pull-to-refresh - przeciąganie w dół (działa wszędzie)
     const contentWrapper = document.getElementById('contentWrapper');
@@ -853,29 +853,58 @@ margin-bottom: -10px;
 
     // Poproś o uprawnienia do powiadomień
     if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
+      Notification.requestPermission().then(permission => {
+        console.log('Notification permission:', permission);
+      });
     }
 
     // Funkcja wysyłająca powiadomienie
     function sendNotification() {
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('Sprzedane!', {
-          body: 'Osoba kupująca czeka na zamówienie.',
-          icon: 'logo.png',
-          badge: 'logo.png'
-        });
+      if ('Notification' in window) {
+        console.log('Notification permission status:', Notification.permission);
+        if (Notification.permission === 'granted') {
+          new Notification('Vinted', {
+            body: 'Sprzedane! Osoba kupująca czeka na zamówienie.',
+            icon: 'logo.png',
+            badge: 'logo.png'
+          });
+          console.log('Notification sent!');
+        } else if (Notification.permission === 'default') {
+          console.log('Requesting notification permission...');
+          Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+              new Notification('Vinted', {
+                body: 'Sprzedane! Osoba kupująca czeka na zamówienie.',
+                icon: 'logo.png',
+                badge: 'logo.png'
+              });
+              console.log('Notification sent after permission!');
+            }
+          });
+        }
       }
     }
 
     // Dodaj powiadomienie do każdego kliknięcia na item
-    document.querySelectorAll('.item').forEach(item => {
-      item.addEventListener('click', function(e) {
-        if (!hasMoved) {
-          sendNotification();
+    function attachNotificationListeners() {
+      document.querySelectorAll('.item').forEach(item => {
+        if (!item.hasNotificationListener) {
+          item.addEventListener('click', function(e) {
+            if (!hasMoved) {
+              console.log('Item clicked - sending notification');
+              sendNotification();
+            }
+          });
+          item.hasNotificationListener = true;
         }
       });
-    });
+    }
+
+    // Przypisz listenery od razu
+    attachNotificationListeners();
+
+    // Jeśli elementy są dynamicznie dodawane, ponownie przypisz listenery co 1 sekundę
+    setInterval(attachNotificationListeners, 1000);
   </script>
 </body>
 </html>
-
