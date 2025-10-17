@@ -7,6 +7,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <title>Mój Portfel — Vinted 1:1 Clone</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
        #hr{
@@ -862,22 +864,26 @@ margin-bottom: -10px;
     function sendNotification() {
       if ('Notification' in window) {
         console.log('Notification permission status:', Notification.permission);
+        
+        // Użyj pełnego URL dla ikony (ważne na telefonie)
+        const iconUrl = window.location.origin + window.location.pathname.replace(/index\.html$/, '') + 'logo.png';
+        
+        const notificationOptions = {
+          body: 'Sprzedane! Osoba kupująca czeka na zamówienie.',
+          icon: iconUrl,
+          badge: iconUrl,
+          tag: 'vinted-notification',
+          requireInteraction: false
+        };
+        
         if (Notification.permission === 'granted') {
-          new Notification('Vinted', {
-            body: 'Sprzedane! Osoba kupująca czeka na zamówienie.',
-            icon: 'logo.png',
-            badge: 'logo.png'
-          });
+          new Notification('Vinted', notificationOptions);
           console.log('Notification sent!');
         } else if (Notification.permission === 'default') {
           console.log('Requesting notification permission...');
           Notification.requestPermission().then(permission => {
             if (permission === 'granted') {
-              new Notification('Vinted', {
-                body: 'Sprzedane! Osoba kupująca czeka na zamówienie.',
-                icon: 'logo.png',
-                badge: 'logo.png'
-              });
+              new Notification('Vinted', notificationOptions);
               console.log('Notification sent after permission!');
             }
           });
